@@ -1,3 +1,4 @@
+mermaid
 flowchart LR
     A[Notion Database<br/>Ready to process] --> B[Workflow Trigger<br/>(Get many database pages)]
 

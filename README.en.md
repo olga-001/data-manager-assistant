@@ -36,20 +36,20 @@ The system follows a **multi-agent architecture** and consists of several logica
 - manual data is protected from being overwritten.
 
 ### 4️⃣ Status Management
-- `Ready to process` — workflow trigger  
-- `Processing` — item is being processed  
-- `Ready to check` — processing completed, manual review required  
-- `Error` — error occurred with detailed logging  
-- `Done` — item fully processed and manually approved  
+- `Ready to process` - workflow trigger  
+- `Processing` - item is being processed  
+- `Ready to check` - processing completed, manual review required  
+- `Error` - error occurred with detailed logging  
+- `Done` - item fully processed and manually approved  
 
 ---
 
 ## 🛠 Technology Stack
-- **n8n (self-hosted)** — workflow orchestration
-- **OpenAI GPT-4o** — multimodal text and image processing
-- **Notion API** — database (current implementation)
-- **Google Drive** — image storage
-- **JavaScript (Code nodes)** — parsing, validation, business logic
+- **n8n (self-hosted)** - workflow orchestration
+- **OpenAI GPT-4o** - multimodal text and image processing
+- **Notion API** - database (current implementation)
+- **Google Drive** - image storage
+- **JavaScript (Code nodes)** - parsing, validation, business logic
 
 ---
 

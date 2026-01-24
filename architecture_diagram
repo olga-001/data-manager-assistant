@@ -1,0 +1,23 @@
+flowchart LR
+    A[Notion Database<br/>Ready to process] --> B[Workflow Trigger<br/>(n8n Loop)]
+    
+    B --> C[Unified Input Builder<br/>Text + Screenshots + Photos]
+    
+    C --> D[Entry Assistant<br/>AI Agent #1<br/>Data Extraction]
+    
+    D --> E[Parse & Normalize Output<br/>Safe JSON]
+    
+    E --> F[Location Assistant<br/>AI Agent #2<br/>Description Generation]
+    
+    F --> G[Merge & Validation Layer<br/>Only Empty Fields]
+    
+    G --> H[Build Notion Update Payload<br/>No Overwrite Logic]
+    
+    H --> I[Update Notion Page]
+    
+    I --> J[Set Status<br/>Ready to check]
+    
+    I -->|Error| K[Set Status<br/>Error + Log]
+    
+    J --> B
+    K --> B

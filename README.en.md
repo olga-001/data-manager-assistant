@@ -58,6 +58,21 @@ A detailed architecture and workflow diagram is available here:
 
 ---
 
+## 📂 Workflow implementation (n8n)
+
+The repository also includes the **workflow JSON file** exported directly from n8n:
+
+🔗 **[Data_manager_assistant_2.0.json](https://github.com/olga-001/data-manager-assistant/blob/main/Data_manager_assistant_2.0.json)**
+
+This file:
+- contains all nodes, connections, conditions, agents, and business logic,
+- can be imported into a **self-hosted n8n** instance for workflow inspection.
+
+⚠️ The file is provided **for demonstration and validation purposes only**.  
+Running the workflow requires a configured n8n environment and valid credentials (API keys, database and storage access).
+
+---
+
 ## 🔁 Adaptability & Limitations
 ⚠️ In its current form, the solution is **not a universal out-of-the-box product**, however:
 - the architecture,

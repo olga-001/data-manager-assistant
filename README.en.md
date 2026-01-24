@@ -42,6 +42,11 @@ The system follows a **multi-agent architecture** and consists of several logica
 - `Error` - error occurred with detailed logging  
 - `Done` - item fully processed and manually approved  
 
+### 📐 Architecture Diagram
+
+A detailed architecture and workflow diagram is available here:
+👉 [Architecture Diagram (Mermaid)](https://github.com/olga-001/data-manager-assistant/blob/main/docs/architecture_diagram.md)
+
 ---
 
 ## 🛠 Technology Stack

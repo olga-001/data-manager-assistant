@@ -45,7 +45,7 @@
 ### 📐 Architecture Diagram
 
 Подробная схема архитектуры и логики workflow доступна по ссылке:
-👉 [Architecture Diagram (Mermaid)](https://github.com/olga-001/data-manager-assistant/blob/main/docs/architecture_diagram.md)
+👉 [Architecture Diagram (Mermaid)](https://github.com/olga-001/data-manager-assistant/tree/main/docs)
 
 ---
 

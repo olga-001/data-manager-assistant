@@ -1,0 +1,1600 @@
+{
+  "name": "Data_manager_assistant_2.0",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Триггер\n- polling (проверка раз в N минут) + фильтр “Ready to process”",
+        "height": 704,
+        "width": 576
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1040,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "ed514dfb-5363-4f68-9d00-225c72362e33",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Сбор и нормализация входных данных\n- тексты\n- ссылки\n- язык",
+        "height": 112,
+        "width": 2224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        96,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "4511d596-eac3-470b-a613-d6d115e03ad0",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Анализ и обогащение данных\n- поиск недостающей информации\n- фиксация источников",
+        "height": 704,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2320,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "af8f832e-d702-481c-9653-8fa13aaaf87f",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Генерация описания (Location Assistant)\n- описание\n- краткое / расширенное",
+        "height": 704,
+        "width": 864
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3056,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "3299e1fc-ea86-41df-b3b8-e0ad61d1aaeb",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Проверка условий запуска\n- есть ли вводная информация\n- не обработана ли карточка ранее",
+        "height": 704,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -464,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "3f5b2c3a-aeab-490e-98e2-b5aa2f44832a",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Структурирование и заполнение полей (Data Entry Assistant)\n- только пустые поля\n- только разрешённые поля",
+        "height": 704,
+        "width": 704
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3904,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "b06051a7-69b3-4ba7-a6bd-3c0eef8fc897",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Результат для человека\n- комментарий\n- лог",
+        "height": 704,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4608,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "7cdcef42-64c0-4b6a-a6b8-5bc8f06d46eb",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1024,
+        -240
+      ],
+      "id": "edbcca6b-9880-4cf5-ac37-e3cde36827a8",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2dc3eb20-895a-80ca-a3a1-c3fa4cff9a26",
+          "mode": "list",
+          "cachedResultName": "Places_test_n8n",
+          "cachedResultUrl": "https://www.notion.so/2dc3eb20895a80caa3a1c3fa4cff9a26"
+        },
+        "returnAll": true,
+        "simple": false,
+        "filterType": "json",
+        "filterJson": "={   \"property\": \"Automation Status\",   \"select\": {     \"equals\": \"Ready to process\"   } }",
+        "options": {
+          "downloadFiles": true
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -832,
+        -240
+      ],
+      "id": "0992afb5-cb10-49c6-a28d-4ebc767d592d",
+      "name": "Get many database pages",
+      "credentials": {
+        "notionApi": {
+          "id": "1rcVysaJAKL1DFd7",
+          "name": "Data_manager_assistant_n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5db6a8cd-583e-47f0-a1c8-57d3d484df42",
+              "leftValue": "={{ $json.properties['Automation Status'].select.name }}",
+              "rightValue": "Ready to process",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -640,
+        -240
+      ],
+      "id": "a693341c-b4aa-4f07-b9ae-bac402442f7e",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -416,
+        -256
+      ],
+      "id": "cfe9ee78-eef5-4b8b-a11f-d8dacab404b9",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{$json.id}}",
+          "mode": "id"
+        },
+        "simple": "",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Automation Status|select",
+              "selectValue": "Error"
+            },
+            {
+              "key": "Automation Log / Error|rich_text",
+              "textContent": "={{\"Пропуск: нет входной информации.\" + $now.toISO()}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -48,
+        -48
+      ],
+      "id": "1ea2e4d9-ad57-4965-8056-0f4cc56d0f6d",
+      "name": "Update a database page1",
+      "credentials": {
+        "notionApi": {
+          "id": "1rcVysaJAKL1DFd7",
+          "name": "Data_manager_assistant_n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "block",
+        "operation": "getAll",
+        "blockId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "fetchNestedBlocks": true,
+        "simplifyOutput": false
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        -48
+      ],
+      "id": "b1952551-07fe-43ae-956a-3d3e6ac7ef87",
+      "name": "Get many child blocks",
+      "credentials": {
+        "notionApi": {
+          "id": "1rcVysaJAKL1DFd7",
+          "name": "Data_manager_assistant_n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "77cb6ba5-9329-47c9-831a-e21d313ffdb7",
+              "name": "image_urls",
+              "value": "={{ $json.image?.file?.url || $json.image?.external?.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1008,
+        -80
+      ],
+      "id": "f220d195-613d-451f-9b45-8b10f988738d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.image.file.url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1280,
+        -80
+      ],
+      "id": "4bc12aa2-a365-4fbe-bbc0-b9322edd84b6",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "content": "### Получение скринов для дальнейшего анализа (изображения)\n",
+        "height": 192,
+        "width": 1168
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        416,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "bb8301d9-7d16-4d0d-9bde-eff8f8056d02",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5318c864-49e1-4b68-854c-01a6af32a04b",
+              "leftValue": "={{ $json.type === 'image' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        752,
+        -48
+      ],
+      "id": "8aca6c0c-724d-4b43-b0d8-dae1065017e2",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d99e1cab-109c-4a62-8742-5201abb97473",
+              "leftValue": "={{\n  (\n    ($json.properties?.Email?.rich_text?.length ?? 0) > 0 ||\n    ($json.properties?.[\"Hours of Operation\"]?.rich_text?.length ?? 0) > 0 ||\n    !!$json.properties?.[\"Photo Google Drive\"]?.url ||\n    !!$json.properties?.[\"Провинция\"]?.select?.name ||\n    !!$json.properties?.Location?.select?.name ||\n    !!$json.properties?.[\"Link to their site\"]?.url ||\n    !!$json.properties?.[\"Google Map\"]?.url ||\n    ($json.properties?.[\"WhatsApp Number\"]?.rich_text?.length ?? 0) > 0 ||\n    ($json.properties?.[\"Phone Number\"]?.rich_text?.length ?? 0) > 0 ||\n    ($json.properties?.[\"Owner / Manager\"]?.rich_text?.length ?? 0) > 0 ||\n    ($json.properties?.[\"links to Social Media\"]?.rich_text?.length ?? 0) > 0 ||\n    (Array.isArray($json.image_urls) && $json.image_urls.length > 0)\n  )\n}}",
+              "rightValue": 0,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -176,
+        -240
+      ],
+      "id": "f233b3d9-bc38-410c-b192-780a005ef8e8",
+      "name": "IF_InputExists"
+    },
+    {
+      "parameters": {
+        "content": "### Сбор данных из properties (структурные поля базы)",
+        "height": 592,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        96,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "18b146a9-4749-4019-b7fd-7dd04f2f2d31",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "### Нормализация и дедупликация",
+        "height": 192,
+        "width": 1168
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        416,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "829f80b3-cf90-43c5-88d6-ec164341fde0",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "### Формирование единого входного объекта (Unified Input)",
+        "height": 592,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1584,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "e05023a1-1e5c-49e3-9cc1-94bfceb0f7f1",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "### Google Drive как источник фото (ветка “если есть ссылка”)",
+        "height": 208,
+        "width": 1168
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        416,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "fa649b9f-3fe7-458b-ba8a-bc2431f786aa",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fc61a13c-ed14-4ab1-934e-03ed342f138b",
+              "name": "=name_str",
+              "value": "={{ ($json.properties.Name?.title ?? []).map(t => t.plain_text).join(' ').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "54337c3d-8c6c-492a-a981-d81d97a081e8",
+              "name": "google_map_str",
+              "value": "={{ $json.properties['Google Map']?.url ?? '' }}",
+              "type": "string"
+            },
+            {
+              "id": "425b81c2-aee2-4e27-b738-29e175e165fb",
+              "name": "photo_drive_str",
+              "value": "={{ $json.properties['Photo Google Drive']?.url ?? '' }}",
+              "type": "string"
+            },
+            {
+              "id": "991d9dcc-a114-4a03-8c79-52fd1c798bfa",
+              "name": "website_str",
+              "value": "={{ $json.properties['Link to their site']?.url ?? '' }}",
+              "type": "string"
+            },
+            {
+              "id": "992ea196-c34c-474c-9542-5b9b78832512",
+              "name": "email_str",
+              "value": "={{ ($json.properties.Email?.rich_text ?? []).map(t => t.plain_text).join(' ').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "6475f609-a984-496b-bbf3-7c88af9656cb",
+              "name": "whatsapp_str",
+              "value": "={{ ($json.properties['WhatsApp Number']?.rich_text ?? []).map(t => t.plain_text).join(' ').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "f7dc2c65-650b-4c89-98b5-3b2467380b47",
+              "name": "phone_str",
+              "value": "={{ ($json.properties['Phone Number']?.rich_text ?? []).map(t => t.plain_text).join(' ').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "7d842934-30b5-416a-8cbb-b24a22626d44",
+              "name": "hours_str",
+              "value": "={{ ($json.properties['Hours of Operation']?.rich_text ?? []).map(t => t.plain_text).join(' ').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "cafb82fc-ab75-4ac0-b365-bfe17fefa9a4",
+              "name": "social_links_str",
+              "value": "={{ ($json.properties['links to Social Media']?.rich_text ?? []).map(t => t.plain_text).join(' ').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "50403428-6d94-4b7e-a21d-84b114ad6dee",
+              "name": "comments_marina_str",
+              "value": "={{ ($json.properties['Comments Marina']?.rich_text ?? []).map(t => t.plain_text).join(' ').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "d69b05bb-9d4c-4fb3-a6db-8edacc4463d2",
+              "name": "province_str",
+              "value": "={{ $json.properties['Провинция']?.select?.name ?? '' }}",
+              "type": "string"
+            },
+            {
+              "id": "9a7ef718-2a20-4d72-aa33-3c54efe6e06b",
+              "name": "location_str",
+              "value": "={{ $json.properties.Location?.select?.name ?? '' }}",
+              "type": "string"
+            },
+            {
+              "id": "b22ab90f-5198-4603-af1f-3fc75cd2fadf",
+              "name": "category_str",
+              "value": "={{ ($json.properties.Category?.multi_select ?? []).map(c => c.name).join(', ') }}",
+              "type": "string"
+            },
+            {
+              "id": "24d0fb4c-770e-460a-8dd6-3e7a955aee64",
+              "name": "chain_stores_str",
+              "value": "={{ $json.properties['Сетевой ли']?.select?.name ?? '' }}",
+              "type": "string"
+            },
+            {
+              "id": "98bd357c-3a54-40a3-bb53-0d9ee5718e09",
+              "name": "page_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "02e2fcb6-e7e0-45a6-8f6f-755206473ca4",
+              "name": "page_url",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        -240
+      ],
+      "id": "0d7e8a35-a81b-458f-bb88-4ab95a8a648c",
+      "name": "Normalize_Properties"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1eea2278-b919-444e-bdad-894d98f753a4",
+              "name": "input_context",
+              "value": "={{\n  [\n    $json.name_str && `Name: ${$json.name_str}`,\n    $json.google_map_str && `Google Map: ${$json.google_map_str}`,\n    $json.photo_drive_str && `Photos (Drive): ${$json.photo_drive_str}`,\n    $json.website_str && `Website: ${$json.website_str}`,\n    $json.email_str && `Email: ${$json.email_str}`,\n    $json.whatsapp_str && `WhatsApp: ${$json.whatsapp_str}`,\n    $json.phone_str && `Phone: ${$json.phone_str}`,\n    $json.hours_str && `Hours: ${$json.hours_str}`,\n    $json.social_links_str && `Social Media: ${$json.social_links_str}`,\n    $json.comments_marina_str && `Internal comment: ${$json.comments_marina_str}`,\n    $json.province_str && `Province: ${$json.province_str}`,\n    $json.location_str && `Location: ${$json.location_str}`,\n    $json.category_str && `Category: ${$json.category_str}`,\n    $json.chain_stores_str && `Chain: ${$json.chain_stores_str}`\n  ]\n    .filter(v => v && String(v).trim() !== '')\n    .map(v => String(v).trim())\n    .filter((v, i, a) => a.indexOf(v) === i)\n    .join('\\n')\n}}",
+              "type": "string"
+            },
+            {
+              "id": "1a37a774-02f5-4dbc-b9d7-21e914e17545",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "0a7b8156-ceb5-45d4-aef5-b1e460b037d7",
+              "name": "page_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "67d07739-7c2f-4b95-bc82-3356cfb313b3",
+              "name": "url",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        944,
+        -240
+      ],
+      "id": "33be8584-655f-4128-8c38-c60ced5892a5",
+      "name": "Build_Input_Context"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// Notion page meta (берём из Normalize_Properties)\nconst notion = $items(\"Normalize_Properties\")[0]?.json ?? {};\nconst notionPageId = notion.id ?? null;\nconst notionUrl = notion.url ?? null;\n\nif (!items.length) {\n  return [{\n    json: {\n      id: notionPageId,\n      url: notionUrl,\n      page_id: notionPageId,\n      screenshots: [],\n      screenshots_count: 0,\n      has_screenshots: false,\n    },\n    binary: {},\n  }];\n}\n\nconst binary = {};\nconst screenshots = [];\n\nlet i = 1;\nfor (const it of items) {\n  const b = it.binary?.data;\n  if (!b) continue;\n\n  const key = `screenshot_${i}`;\n  binary[key] = b;\n\n  screenshots.push({\n    key,\n    fileName: b.fileName || null,\n    mimeType: b.mimeType || null,\n    fileSize: b.fileSize || null,\n    url: it.json?.image_urls || it.json?.url || null,\n  });\n\n  i += 1;\n}\n\nreturn [{\n  json: {\n    id: notionPageId,\n    url: notionUrl,\n    page_id: notionPageId,\n    screenshots,\n    screenshots_count: screenshots.length,\n    has_screenshots: screenshots.length > 0,\n  },\n  binary,\n}];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        -80
+      ],
+      "id": "33e97190-dbb8-41cb-914e-4f053e77ee94",
+      "name": "Aggregate_Screenshots"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {
+          "includeUnpaired": true
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1856,
+        -224
+      ],
+      "id": "55dd9f16-189d-4437-a66a-58c727a448c4",
+      "name": "Merge_Context_And_Screens",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e0021d36-210c-4364-8e65-905dbdb7024a",
+              "name": "unified_input_json",
+              "value": "={{\nJSON.stringify(\n  {\n    meta: {\n      page_id: $json.id,\n      page_url: $json.url,\n      timestamp: new Date().toISOString(),\n    },\n\n    text_context: $json.input_context || \"\",\n\n    screenshots: $json.screenshots || [],\n\n    flags: {\n      has_text: Boolean($json.input_context),\n      has_screenshots: Array.isArray($json.screenshots) && $json.screenshots.length > 0,\n      has_photos_drive: Boolean($json.photo_drive_str),\n      has_contacts: Boolean(\n        $json.phone_str ||\n        $json.whatsapp_str ||\n        $json.email_str\n      ),\n      has_links: Boolean(\n        $json.website_str ||\n        $json.google_map_str ||\n        $json.social_links_str\n      )\n    }\n  },\n  null,\n  2\n)\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2144,
+        -208
+      ],
+      "id": "76600537-91bb-4b7a-918f-4bd3b6009418",
+      "name": "Build_Unified_Input_JSON"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2e71f719-440c-4e4b-a313-78879ca8c1f4",
+              "leftValue": "={{ $json.photo_drive_str }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        496,
+        160
+      ],
+      "id": "b9c080a9-786c-4c79-aa61-7e4a8d10ef64",
+      "name": "IF_DriveLinkExists"
+    },
+    {
+      "parameters": {
+        "jsCode": "const url = $json.photo_drive_str || '';\nconst m = url.match(/\\/folders\\/([a-zA-Z0-9_-]+)/);\n\nreturn [{\n  json: {\n    ...$json,\n    drive_folder_id: m ? m[1] : null,\n    drive_folder_url: url,\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        144
+      ],
+      "id": "48ec08f2-76db-4cef-aef4-e318f8ec3753",
+      "name": "Parse_Drive_FolderId"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "17ac8e26-6e9c-421f-8fa1-1ab58c40a33a",
+              "leftValue": "={{ $json.drive_folder_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1008,
+        144
+      ],
+      "id": "d7da8b6b-c069-4f3b-84ee-3d194acd576e",
+      "name": "IF_FolderIdParsed"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "={{\n  `('${$json.drive_folder_id}' in parents) and trashed = false and mimeType contains 'image/'`\n}}\n\n",
+        "limit": 10,
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1232,
+        128
+      ],
+      "id": "ba4e39fd-c048-4da3-96d1-2f59ddf02029",
+      "name": "Search files and folders",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1440,
+        128
+      ],
+      "id": "7c151c30-3c64-4a94-af9e-20bb2bb45624",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "qHIcDWjq6DVkRGLA",
+          "name": "PE-2-5-n8n-HR"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// Notion page meta (берём из Normalize_Properties)\nconst notion = $items(\"Normalize_Properties\")[0]?.json ?? {};\nconst notionPageId = notion.id ?? null;\nconst notionUrl = notion.url ?? null;\n\nif (!items.length) {\n  return [{\n    json: {\n      id: notionPageId,\n      url: notionUrl,\n      page_id: notionPageId,\n      photo: [],\n      photo_count: 0,\n      has_photo: false,\n    },\n    binary: {},\n  }];\n}\n\n// соберём бинарники в один объект\nconst binary = {};\nconst photo = [];\n\nlet i = 1;\nfor (const it of items) {\n  const b = it.binary?.data;\n  if (!b) continue;\n\n  const key = `photo_${i}`;\n  binary[key] = b;\n\n  photo.push({\n    key,\n    fileName: b.fileName || null,\n    mimeType: b.mimeType || null,\n    fileSize: b.fileSize || null,\n    // если есть поле с URL (обычно нет у Drive Download) — оставим\n    url: it.json?.webViewLink || it.json?.url || null,\n  });\n\n  i += 1;\n}\n\nreturn [{\n  json: {\n    id: notionPageId,\n    url: notionUrl,\n    page_id: notionPageId,\n    photo,\n    photo_count: photo.length,\n    has_photo: photo.length > 0,\n  },\n  binary,\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        128
+      ],
+      "id": "b040993b-20e0-4fbd-b4c8-a4cbbad0352f",
+      "name": "Aggregate_Photo"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {
+          "webSearch": {
+            "searchContextSize": "medium"
+          }
+        },
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        2368,
+        112
+      ],
+      "id": "81d39797-3a43-4386-86a1-add5466623c3",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "WGKHPS8Rl7IgWu4B",
+          "name": "Gider_data_manager_assistant"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=={{ JSON.stringify($json) }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=Ты — экспертный ассистент по анализу, извлечению и обогащению данных. \nНа вход ты получаешь один единый объект (Unified Input), который может содержать: \n- неструктурированный текст, \n- структурированные поля, \n- скриншоты, \n- фотографии (binary-данные). \nТвоя задача — проанализировать ВСЕ предоставленные данные совместно и извлечь достоверную информацию о месте или заведении. \n\nТы НЕ ведёшь диалог. \nТы НЕ задаёшь вопросов. \nТы НЕ придумываешь данные. \n\nЕсли значение поля нельзя определить уверенно — верни пустую строку. \nИзображения могут содержать важную информацию: название, телефоны, часы работы, вывески и т.д. Текст и изображения должны анализироваться совместно. \n\nТебе передан Unified Input — единый объект с данными о месте или заведении. \nПроанализируй: \n- весь текст, \n- все скриншоты, \n- все фотографии. \nТвоя задача — извлечь и нормализовать следующие поля. \n\n# ПРАВИЛА ПО ПОЛЯМ:\n\n1. name — уникальное название организации или заведения. \nВсегда извлекай **только имя или бренд**, без родовых слов вроде: - \"кафе\", \"аптека\", \"ресторан\", \"магазин\", \"салон\", \"бар\", \"пекарня\", \"клиника\" и т.п. \nНапример: \n- \"Аптека Jaco\" → name: \"Jaco\" \n- \"Кафе Buena Vida\" → name: \"Buena Vida\" \n- \"Ресторан La Paz\" → name: \"La Paz\" \nОставляй родовое слово только если **явно видно**, что они входят в официальное название. \n\n2. whatsapp_number — номер WhatsApp в формате: **+506 6025-8947** (Международный код, пробел, четыре цифры, дефис, четыре цифры). \nЕсли номеров несколько, запиши через пробел. \nТолько номер WhatsApp. Если определить относится ли номер к номеру WhatsApp или нет, запиши телефон в раздел phone_number \n\n3. phone_number — номер телефона (не WhatsApp) в формате: **+506 6025-8947** (Международный код, пробел, четыре цифры, дефис, четыре цифры). \nЕсли номеров несколько, запиши через пробел. \nЕсли определить относится ли номер к номеру WhatsApp или нет, запиши телефон в раздел phone_number \nНе записывай сюда номер, который записан в раздел whatsapp_number \n\n4. google_map — ссылка на локацию в Google Maps. \n\n5. hours_of_operation — часы работы. \nФормат: \n- Если есть расписание: \n**“Monday - Friday 8:00 AM - 5:00 PM, Saturday 8:00 AM - 1:00 PM, Sunday - Closed”** \n- Если работает круглосуточно: \n**“Monday - Sunday Open 24 hours”** \n- Объединяй только те дни, у которых абсолютно одинаковое расписание. Избегай перекрытий. \n\n6. category — тип места. \nВыбирается один вариант из: \n- Places to Eat — кафе, рестораны, бары, пекарни \n- Shops — магазины, аптеки, торговые точки \n- Services — мастерские, заправки, фитнес-залы, бытовые и другие услуги \n- Adventures — парки, пляжи, достопримечательности, развлечения Если тип не указан — выбирай сам, исходя из сути заведения. \n\n7. location — название населённого пункта, извлекается по ссылке Google Maps. \n\n8. province — провинция, в которой расположено заведение, извлекается по ссылке Google Maps. \n\n9. is_chain — статус. Выбери одно значение: \n- Сетевой — если есть аналогичные заведения в других локациях \n- Не сетевой — если заведение единственное \n- Не применимо — если статус неприменим \n- Не известно — если не удалось установить \n\n10. web — web-идентификатор. \nПравила: \n- если заведение не сетевое: название \n- если заведение сетевое, но одно в этой локации: название-локация \n- если их несколько в одной локации: название-локация-уточнение\nСтрочными буквами, только латиница, разделение через дефис. \n\n11. links_to_social_media — ссылки на Facebook/Instagram, одна под другой. \nПриоритет поиска: предоставленные скриншоты и фотографии → предоставленный текст → поискать в интернете. \n\n12. link_to_site — ссылка на сайт заведения, если есть.\nПриоритет поиска: предоставленные скриншоты и фотографии → предоставленный текст → соцсети → сайт → Google Maps. \n\n13. email — электронная почта места или заведения.\nПриоритет поиска: предоставленные скриншоты и фотографии → предоставленный текст → соцсети → сайт → Google Maps → Google.\n\n14. comment_for_everyone — url-ссылки на использованные источники информации из сети Интернет и дополнительные комментарии, одна под другой.\n\n# ОБЩИЕ ПРАВИЛА И ОГРАНИЧЕНИЯ: \n- Отдавай приоритет данным, подтверждённым несколькими источниками (текст + изображения + открытые источники из сети Интернет). \n- Используй только информацию, которую можно обоснованно извлечь из входных данных. Если извлечь информацию из входных данных не представляется возможным, допускается использование поиска информации из сети Интернет. \n**Приоритет поиска: предоставленные скриншоты → предоставленные фотографии → предоставленный текст → соцсети → сайт → Google Maps → Google → другие доступные открытые источники.** \n- Ничего не выдумывай. \n- Не добавляй комментарии или объяснения. \n- Если использована информация из открытых источников сети Интернет, в сomment_for_everyone добавь url-ссылки на использованные источники информации, одна под другой. А также в случае если, обнаружена противоречивая информация (например, в открытых источниках обнаружено другое название, телефоны, расписание и прочие), в  сomment_for_everyone отрази это как краткие комментарии (не более 1-го предложения) с ссылками на источники информации. \n- В ответе верни ТОЛЬКО валидный JSON строго по заданной схеме. \n\nЯЗЫКОВЫЕ ПРАВИЛА: \n- Все поля, КРОМЕ name, должны быть на английском языке. \n- Поле name не переводится. Если значение какого-либо поля определить невозможно — верни пустую строку. \n\n# Требуемый формат ответа (JSON)\njsx\n{\n  \"action\": \"create\",\n  \"name\": \"\",\n  \"whatsapp_number\": \"\",\n  \"phone_number\": \"\",\n  \"google_map\": \"\",\n  \"hours_of_operation\": \"\",\n  \"category\": \"\",\n  \"location\": \"\",\n  \"province\": \"\",\n  \"is_chain\": \"\",\n  \"web\": \"\",\n  \"links_to_social_media\": \"\",\n  \"link_to_site\": \"\",\n  \"email\": \"\",\n  \"comment_for_everyone\": \"\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        2368,
+        -96
+      ],
+      "id": "5a458bfd-5e0a-468b-b02b-fd54c117f055",
+      "name": "Entry_Assistant"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// n8n Code (new) — возвращаем ОДИН item как { json: {...}, binary?: {...} }\n\nconst raw = $json.output ?? '';\n\nif (typeof raw !== 'string' || !raw.trim()) {\n  return { json: { parse_error: 'Empty output', raw_output: raw } };\n}\n\n// 1) снять ```json ... ``` или ``` ... ```\nlet cleaned = raw.trim()\n  .replace(/^```(?:json)?\\s*/i, '')\n  .replace(/\\s*```$/i, '');\n\n// 2) вырезать первый JSON-объект, если вокруг есть лишний текст\nconst start = cleaned.indexOf('{');\nconst end = cleaned.lastIndexOf('}');\nif (start === -1 || end === -1 || end <= start) {\n  return { json: { parse_error: 'No JSON object found', raw_output: raw, cleaned } };\n}\n\nconst jsonStr = cleaned.slice(start, end + 1);\n\n// 3) parse\nlet obj;\ntry {\n  obj = JSON.parse(jsonStr);\n} catch (e) {\n  return { json: { parse_error: 'JSON.parse failed', error: String(e), raw_output: raw, cleaned, jsonStr } };\n}\n\n// 4) чистый JSON наверх + сохраняем сырой вывод\nreturn {\n  json: {\n    ...obj,\n    _raw_output: raw,\n  }\n};\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2672,
+        -96
+      ],
+      "id": "7fc87f48-771e-4b23-8931-f0bb57032b77",
+      "name": "Parse_Entry_Output"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {
+          "webSearch": {
+            "searchContextSize": "medium"
+          }
+        },
+        "options": {
+          "maxTokens": 100,
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        3328,
+        112
+      ],
+      "id": "493e331c-3c62-4537-8c95-f593e4c9d8ee",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "WGKHPS8Rl7IgWu4B",
+          "name": "Gider_data_manager_assistant"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2896,
+        -192
+      ],
+      "id": "ad362812-48ce-4cf1-8a84-224f4e76be73",
+      "name": "Merge_Unified_And_Entry"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=={{ JSON.stringify($json) }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=Роль: ты – копирайтер, создающий краткие нейтральные описания публичных мест и заведений для **картографических карт Google**.\n\nЦель: создать **краткое, информативное и нейтральное описание** места или заведения таких как рестораны, кафе, музеи, парки, фитнес-центры и другие объекты для карточки на карте. Описание должно быть полезным для пользователя.\n\nНа вход ты получаешь один единый объект (Unified Input), который может содержать:\n- структурированные текстовые поля в JSON,\n- неструктурированный текст,\n- скриншоты,\n- фотографии (binary-данные)\nВсе источники информации должны анализироваться **совместно**.\n\n# Действуй пошагово:\nШаг 1 Проанализировать информацию о месте или заведении и составь ясное, краткое и убедительное описание. Приоритет использования информации для описания:\n- сначала используется предоставленная информация, это может быть текс, файлы, картинки и фотографии;\n- только в случае отсутствия предоставленной информации или её недостаточности, возможно использование информации из внешних источников (в рамках данного буллита приоритет использования информации из открытых источников следующий: социальные сети места или заведения → cайт места или заведения → Google Maps или Google)\n\nШаг 2 Адаптировать стиль описания в соответствии с требованиям **SEO Google**, но **без рекламных и оценочных формулировок**.\n\n# Описание могут быть как с использованием, так и без использования маркированных списков.\nПри использовании маркированного списка придерживаешься следующих правил:\n- каждый пункт списка должен начинаться с новой строки. Перед первым пунктом списка идет пустая строка, все последующие пункты списка с новой строки без пропусков.\n- каждый пункт должен начинаться с символа «•» (точка посередине строки, не тире, не дефис). Символ «•» должен использоваться даже если в предоставленных данных используется другой формат маркировки. \nЕсли список не добавляет фактической пользы — не используй его.\n\n# Язык описания: английский\n\n# Правила и ограничения: \n1. описание должно состоять не более чем из 500 символов;\n2. не использовать слова и формулировки несущие в себе оценочные суждения (например: “Making it a convenient option for a variety of needs”, “It's a great spot”,  “Wide range”, “The best”, “Stunning”, “Perfect”, “Charming”, “A delightful”, “Ideal”, “Excellent service”, “Offering 100% professional service”, “Everything needed” и тому подобные формулировки);\n3. не использовать рекламные формулировки (например: “Providing convenience and quality for all your needs”, “With quality gear, great boats, and detailed, patient instruction, it’s a perfect place for both beginners and experienced divers”, “Enjoy clean, modern facilities, friendly service, and options to hike, ride a truck, or go horseback riding”, “A great way to experience one of Costa Rica’s natural wonders!”, “Friendly and professional service for your health needs.”, “A cozy spot for sweet treats and quality coffee. Highly recommended!” и тому подобные формулировки);\n4. не использовать призывы к действию (например: “Arrive early, wear good”, “Explore the rich marine life”, “Enjoy clean”, “Ride a truck”, “Go horseback”, “Discover an excellent selection” и тому подобные формулировки); \n5. избегать слов с дефисом (« – ») – использовать только, в случае если нет соответствующего по смыслу аналога;\n6. в описании не должно быть указание на адрес (включая город, провинция, регион, поселение, район и тп) места или заведения;\n7. в описании не нужно указывать время работы заведения (включая даты, дни недели, время). \n8. Допускается упоминание:\n- типа заведения (банк, аптека, ресторан и т.п.),\n- ключевых услуг или функций,\n- особенностей, подтверждённых входными данными.\n\n# Критические требования:\n- Ничего не выдумывай.\n- Используй **только подтверждаемую информацию**.\n- Если данных недостаточно — сделай максимально нейтральное и краткое описание на основе доступных фактов.\n- **Не добавляй комментариев, объяснений или рассуждений**.\n\n# В ответе не показывай шаги верни **ТОЛЬКО валидный JSON**, без markdown, без пояснений, без дополнительного текста:\n{\n\"description\":\"\"\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        3328,
+        -320
+      ],
+      "id": "e6944a79-6cce-4fcf-a17f-a4c8d58d7126",
+      "name": "Location_Assistant"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Ожидаем строку ответа от Location_Assistant в поле \"output\"\nconst raw = $json.output ?? '';\n\nif (typeof raw !== 'string' || !raw.trim()) {\n  return { json: { description: \"\", parse_error: \"Empty output\", raw_output: raw } };\n}\n\n// 1) убрать ```json ... ``` или ``` ... ```\nlet cleaned = raw.trim()\n  .replace(/^```(?:json)?\\s*/i, '')\n  .replace(/\\s*```$/i, '');\n\n// 2) вырезать JSON-объект, если вокруг есть лишний текст\nconst start = cleaned.indexOf('{');\nconst end = cleaned.lastIndexOf('}');\nif (start === -1 || end === -1 || end <= start) {\n  // если JSON не найден — возвращаем как пустое описание, а сырьё оставляем для дебага\n  return { json: { description: \"\", parse_error: \"No JSON object found\", raw_output: raw, cleaned } };\n}\n\nconst jsonStr = cleaned.slice(start, end + 1);\n\n// 3) parse\nlet obj;\ntry {\n  obj = JSON.parse(jsonStr);\n} catch (e) {\n  return { json: { description: \"\", parse_error: \"JSON.parse failed\", error: String(e), raw_output: raw, cleaned, jsonStr } };\n}\n\n// 4) нормализуем выход: только description (строка)\nconst description = (obj.description ?? \"\");\nreturn { json: { description } };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3616,
+        -320
+      ],
+      "id": "a0ae0acf-4299-4b17-b171-78995d23c442",
+      "name": "Parse_Location_Output"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3792,
+        -112
+      ],
+      "id": "bb6846bd-bf8b-4ec4-8149-7cdcb9ff1fd1",
+      "name": "Merge_Entry_And_Description"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Build_Notion_Update_Payload_NoOverwrite\n// На входе ожидаем:\n// 1) LLM поля: name, whatsapp_number, phone_number, google_map, province, location, category,\n//    links_to_social_media, link_to_site, email, web, description, page_id, page_url\n// 2) ТЕКУЩИЕ значения Notion — либо как *_str, либо как notion page object с .properties\n\nconst llm = $json;\n\n// ---------------- helpers ----------------\nconst s = (v) => (typeof v === 'string' ? v.trim() : '');\n\nconst hasValue = (v) => {\n  if (v === null || v === undefined) return false;\n  if (Array.isArray(v)) return v.length > 0;\n  if (typeof v === 'string') return v.trim().length > 0;\n  return true;\n};\n\n// safely read Notion property values if full page is present\nconst notionProps = llm.properties ?? null;\n\nconst getTitle = (propName) => {\n  const p = notionProps?.[propName];\n  if (!p || p.type !== 'title') return '';\n  const t = p.title?.map(x => x?.plain_text ?? x?.text?.content ?? '').join('') ?? '';\n  return t.trim();\n};\n\nconst getRichText = (propName) => {\n  const p = notionProps?.[propName];\n  if (!p || p.type !== 'rich_text') return '';\n  const t = p.rich_text?.map(x => x?.plain_text ?? x?.text?.content ?? '').join('\\n') ?? '';\n  return t.trim();\n};\n\nconst getUrl = (propName) => {\n  const p = notionProps?.[propName];\n  if (!p || p.type !== 'url') return '';\n  return (p.url ?? '').trim();\n};\n\nconst getSelect = (propName) => {\n  const p = notionProps?.[propName];\n  if (!p || p.type !== 'select') return '';\n  return (p.select?.name ?? '').trim();\n};\n\nconst getMultiSelect = (propName) => {\n  const p = notionProps?.[propName];\n  if (!p || p.type !== 'multi_select') return [];\n  return (p.multi_select ?? []).map(x => x?.name).filter(Boolean);\n};\n\n// Универсально: берём \"текущее\" из *_str, а если их нет — из notion properties\nconst current = {\n  name: llm.name_str ?? (notionProps ? getTitle('Name') : undefined),\n  whatsapp: llm.whatsapp_str ?? (notionProps ? getRichText('WhatsApp Number') : undefined),\n  phone: llm.phone_str ?? (notionProps ? getRichText('Phone Number') : undefined),\n  google_map: llm.google_map_str ?? (notionProps ? getUrl('Google Map') : undefined),\n  province: llm.province_str ?? (notionProps ? getSelect('Провинция') : undefined),\n  location: llm.location_str ?? (notionProps ? getSelect('Location') : undefined),\n  category: llm.category_str ?? (notionProps ? getMultiSelect('Category') : undefined),\n  social: llm.social_links_str ?? (notionProps ? getRichText('links to Social Media') : undefined),\n  website: llm.website_str ?? (notionProps ? getUrl('Link to their site') : undefined),\n  email: llm.email_str ?? (notionProps ? getRichText('Email') : undefined),\n  web: llm.web_str ?? (notionProps ? getRichText('Web') : undefined),\n  description: llm.description_str ?? (notionProps ? getRichText('Description') : undefined),\n};\n\n// важное правило:\n// если current.<field> === undefined, значит мы НЕ знаем текущее значение (оно не передано),\n// следовательно НЕ обновляем это поле (чтобы не перезаписать случайно)\nconst canUpdateIfEmpty = (curVal) => curVal !== undefined && !hasValue(curVal);\n\n// ---------------- build properties ----------------\nconst properties = {};\n\n// 1) Name (title) — обновляем ТОЛЬКО если уверены что пусто (current.name передан) и он пустой\nif (canUpdateIfEmpty(current.name) && s(llm.name)) {\n  properties['Name'] = { title: [{ type: 'text', text: { content: s(llm.name) } }] };\n}\n\n// 2) Category (multi_select)\nif (canUpdateIfEmpty(current.category) && s(llm.category)) {\n  properties['Category'] = { multi_select: [{ name: s(llm.category) }] };\n}\n\n// 3) Google Map (url)\nif (canUpdateIfEmpty(current.google_map) && s(llm.google_map)) {\n  properties['Google Map'] = { url: s(llm.google_map) };\n}\n\n// 4) Province (select)\nif (canUpdateIfEmpty(current.province) && s(llm.province)) {\n  properties['Провинция'] = { select: { name: s(llm.province) } };\n}\n\n// 5) Location (select)\nif (canUpdateIfEmpty(current.location) && s(llm.location)) {\n  properties['Location'] = { select: { name: s(llm.location) } };\n}\n\n// 6) WhatsApp Number (rich_text)\nif (canUpdateIfEmpty(current.whatsapp) && s(llm.whatsapp_number)) {\n  properties['WhatsApp Number'] = {\n    rich_text: [{ type: 'text', text: { content: s(llm.whatsapp_number) } }],\n  };\n}\n\n// 7) Phone Number (rich_text)\nif (canUpdateIfEmpty(current.phone) && s(llm.phone_number)) {\n  properties['Phone Number'] = {\n    rich_text: [{ type: 'text', text: { content: s(llm.phone_number) } }],\n  };\n}\n\n// 8) Social links (rich_text)\nif (canUpdateIfEmpty(current.social) && s(llm.links_to_social_media)) {\n  properties['links to Social Media'] = {\n    rich_text: [{ type: 'text', text: { content: s(llm.links_to_social_media) } }],\n  };\n}\n\n// 9) Website (url)\nif (canUpdateIfEmpty(current.website) && s(llm.link_to_site)) {\n  properties['Link to their site'] = { url: s(llm.link_to_site) };\n}\n\n// 10) Email (rich_text)\nif (canUpdateIfEmpty(current.email) && s(llm.email)) {\n  properties['Email'] = {\n    rich_text: [{ type: 'text', text: { content: s(llm.email) } }],\n  };\n}\n\n// 11) Web (rich_text)\nif (canUpdateIfEmpty(current.web) && s(llm.web)) {\n  properties['Web'] = {\n    rich_text: [{ type: 'text', text: { content: s(llm.web) } }],\n  };\n}\n\n// 12) Description (rich_text)\nif (canUpdateIfEmpty(current.description) && s(llm.description)) {\n  properties['Description'] = {\n    rich_text: [{ type: 'text', text: { content: s(llm.description) } }],\n  };\n}\n\n// ---------------- return payload ----------------\nreturn {\n  json: {\n    page_id: llm.page_id || llm.id || '',\n    properties,\n  },\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3984,
+        -96
+      ],
+      "id": "62b65179-6685-4cd3-971d-f1331acab5a3",
+      "name": "Build_Notion_Update_Payload_NoOverwrite"
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'https://api.notion.com/v1/pages/' + $json.page_id }}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\n  \"Authorization\": \"Bearer YOUR NOTION TOKEN\",\n  \"Notion-Version\": \"2022-06-28\",\n  \"Content-Type\": \"application/json\"\n}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"properties\": $json.properties } }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": "={{ true }}"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        4176,
+        -96
+      ],
+      "id": "1e60ca38-70f0-4d56-ba68-951bf5275492",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d1494cc9-438d-4d14-8238-3ea0b5538baa",
+              "leftValue": "={{ [200, 204].includes($json.statusCode) }}",
+              "rightValue": "=",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4368,
+        -96
+      ],
+      "id": "3fa6e0fb-fda4-4a43-ba07-5fe5d1ce409b",
+      "name": "IF_Update_Success"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.body.id }}",
+          "mode": "id"
+        },
+        "simple": "",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Automation Status|select",
+              "selectValue": "Ready to check"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        4912,
+        -112
+      ],
+      "id": "afbf8868-feb7-47ad-897a-d5d3bf4424a8",
+      "name": "Update_database_Success",
+      "credentials": {
+        "notionApi": {
+          "id": "1rcVysaJAKL1DFd7",
+          "name": "Data_manager_assistant_n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Merge_Entry_And_Description').item.json.id }}",
+          "mode": "id"
+        },
+        "simple": "",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Automation Status|select",
+              "selectValue": "Error"
+            },
+            {
+              "key": "Automation Log / Error|rich_text",
+              "textContent": "={{ $json.error_message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        4912,
+        96
+      ],
+      "id": "7758f8f9-41ab-4575-a3f2-7cbcdf928699",
+      "name": "Update_database_Not_Success",
+      "credentials": {
+        "notionApi": {
+          "id": "1rcVysaJAKL1DFd7",
+          "name": "Data_manager_assistant_n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const message =\n  $json.body?.message ||\n  $json.body?.error ||\n  $json.statusMessage ||\n  'Unknown error';\n\nreturn {\n  json: {\n    page_id: $json.page_id,\n    error_message: message.slice(0, 1900),\n  },\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4720,
+        80
+      ],
+      "id": "5df3042e-5524-4de2-bb00-f4b9f4c26ba3",
+      "name": "Build_Error_Payload"
+    }
+  ],
+  "pinData": {
+    "Location_Assistant": [
+      {
+        "json": {
+          "output": "{\n\"description\":\"Banco Nacional offers a range of financial services. The branch features a modern building with accessible parking. It serves as a convenient location for banking needs in the area.\"\n}"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Entry_Assistant": [
+      {
+        "json": {
+          "output": "```json\n{\n  \"action\": \"create\",\n  \"name\": \"Banco Nacional\",\n  \"whatsapp_number\": \"+506 8362-0672\",\n  \"phone_number\": \"\",\n  \"google_map\": \"\",\n  \"hours_of_operation\": \"\",\n  \"category\": \"Services\",\n  \"location\": \"Liberia\",\n  \"province\": \"\",\n  \"is_chain\": \"Не известно\",\n  \"web\": \"banco-nacional-liberia\",\n  \"links_to_social_media\": \"\",\n  \"link_to_site\": \"\",\n  \"email\": \"\",\n  \"automation_log_error\": \"\"\n}\n```"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many database pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many database pages": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "IF_InputExists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a database page1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many child blocks": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_InputExists": {
+      "main": [
+        [
+          {
+            "node": "Normalize_Properties",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update a database page1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize_Properties": {
+      "main": [
+        [
+          {
+            "node": "Build_Input_Context",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get many child blocks",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF_DriveLinkExists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build_Input_Context": {
+      "main": [
+        [
+          {
+            "node": "Merge_Context_And_Screens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Aggregate_Screenshots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate_Screenshots": {
+      "main": [
+        [
+          {
+            "node": "Merge_Context_And_Screens",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge_Context_And_Screens": {
+      "main": [
+        [
+          {
+            "node": "Build_Unified_Input_JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build_Unified_Input_JSON": {
+      "main": [
+        [
+          {
+            "node": "Entry_Assistant",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge_Unified_And_Entry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_DriveLinkExists": {
+      "main": [
+        [
+          {
+            "node": "Parse_Drive_FolderId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse_Drive_FolderId": {
+      "main": [
+        [
+          {
+            "node": "IF_FolderIdParsed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_FolderIdParsed": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Aggregate_Photo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate_Photo": {
+      "main": [
+        [
+          {
+            "node": "Merge_Context_And_Screens",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Entry_Assistant",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Entry_Assistant": {
+      "main": [
+        [
+          {
+            "node": "Parse_Entry_Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse_Entry_Output": {
+      "main": [
+        [
+          {
+            "node": "Merge_Unified_And_Entry",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Merge_Entry_And_Description",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Location_Assistant",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge_Unified_And_Entry": {
+      "main": [
+        [
+          {
+            "node": "Location_Assistant",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge_Entry_And_Description",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Location_Assistant": {
+      "main": [
+        [
+          {
+            "node": "Parse_Location_Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse_Location_Output": {
+      "main": [
+        [
+          {
+            "node": "Merge_Entry_And_Description",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge_Entry_And_Description": {
+      "main": [
+        [
+          {
+            "node": "Build_Notion_Update_Payload_NoOverwrite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build_Notion_Update_Payload_NoOverwrite": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "IF_Update_Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_Update_Success": {
+      "main": [
+        [
+          {
+            "node": "Update_database_Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build_Error_Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update_database_Not_Success": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build_Error_Payload": {
+      "main": [
+        [
+          {
+            "node": "Update_database_Not_Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update_database_Success": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "27ee30d4-ac3c-48c1-b5d7-1f3ea6211784",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bcdd961da8edab7df7d5ad06c48f6c89f056b1cdd47d1b179ae451582d51c3e1"
+  },
+  "id": "pA3KXqBOVOTuzkRJ",
+  "tags": []
+}

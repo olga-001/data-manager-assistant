@@ -45,7 +45,7 @@ The system follows a **multi-agent architecture** and consists of several logica
 ### 📐 Architecture Diagram
 
 A detailed architecture and workflow diagram is available here:
-👉 [Architecture Diagram (Mermaid)](https://github.com/olga-001/data-manager-assistant/blob/main/docs/architecture_diagram.md)
+👉 [Architecture Diagram (Mermaid)](https://github.com/olga-001/data-manager-assistant/tree/main/docs)
 
 ---
 

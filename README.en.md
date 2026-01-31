@@ -130,3 +130,7 @@ This approach can be adapted for:
 ## 📎 Project Status
 ✅ Implemented  
 🔧 Can be adapted to other databases and domains
+
+## 📊 Project Presentation
+👉 [Presentation_Data Manager Assistant](https://github.com/olga-001/data-manager-assistant/blob/main/Presentation_Data%20Manager%20Assistant.pptx)
+

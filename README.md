@@ -130,4 +130,6 @@
 ✅ Реализован   
 🔧 Возможна адаптация под другие базы данных и домены  
 
+## 📊 Презентация проекта
+👉 [Presentation_Data Manager Assistant](https://github.com/olga-001/data-manager-assistant/blob/main/Presentation_Data%20Manager%20Assistant.pptx)
 
